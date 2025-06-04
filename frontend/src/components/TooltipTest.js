@@ -11,3 +11,4 @@ export default function TooltipTest() {
     </TooltipProvider>
   );
 }
+// This component demonstrates the use of tooltips using the react-tooltip library.

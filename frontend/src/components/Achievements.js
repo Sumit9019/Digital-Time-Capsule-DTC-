@@ -19,3 +19,4 @@ const Achievements = ({ milestones }) => {
 };
 
 export default Achievements;
+ // it is good to have a separate component for achievements

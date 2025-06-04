@@ -12,7 +12,6 @@ router.post('/checkin', (req, res) => {
   
         rows.forEach((capsule) => {
           if (capsule.triggerValue.toLowerCase() === location.toLowerCase()) {
-            // Deliver the capsule
             db.run(
               `UPDATE capsules SET isDelivered = 1, openedAt = datetime('now') WHERE id = ?`,
               [capsule.id],

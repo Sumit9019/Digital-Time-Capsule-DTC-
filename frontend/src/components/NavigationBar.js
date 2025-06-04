@@ -37,3 +37,5 @@ const NavigationBar = () => {
 };
 
 export default NavigationBar;
+
+// This component renders a navigation bar with links to different pages based on the user's authentication status.

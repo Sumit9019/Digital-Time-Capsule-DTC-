@@ -27,3 +27,4 @@ exports.login = (req, res) => {
     res.json({ token, username: user.username });
   });
 };
+// it is good for creating the analyticsController.js file

@@ -7,10 +7,8 @@ const { getPRCount } = require('../services/githubService');
 const sendEmail = require('../utils/sendEmail');
 const dbUser = require('../models/User');
 
-// POST /api/capsule → Create a new capsule
 exports.createCapsule = (req, res) => {
   const { title, message, triggerType, triggerValue } = req.body;
-  // Get user email from req.user or fallback
   const userEmail = req.user.email || req.user.username || "user@example.com";
   const encryptedMsg = encrypt(message);
 
@@ -24,17 +22,15 @@ exports.createCapsule = (req, res) => {
   });
 };
 
-// GET /api/capsule/my → View user's capsules
 exports.getMyCapsules = (req, res) => {
-  console.log("Fetching capsules for user:", req.user.id); // Debugging log
+  console.log("Fetching capsules for user:", req.user.id); 
   db.all(`SELECT * FROM capsules WHERE userId = ?`, [req.user.id], async (err, rows) => {
     if (err) {
-      console.error("Database error:", err); // Debugging log
+      console.error("Database error:", err);
       return res.status(500).json({ error: err.message });
     }
 
     const now = new Date();
-    // For each capsule, check if it should be delivered (date trigger)
     const updatePromises = rows.map(row => {
       if (
         row.triggerType === "date" &&
@@ -58,18 +54,16 @@ exports.getMyCapsules = (req, res) => {
 
     await Promise.all(updatePromises);
 
-    // Fetch updated capsules after any delivery
     db.all(`SELECT * FROM capsules WHERE userId = ?`, [req.user.id], (err2, updatedRows) => {
       if (err2) {
         return res.status(500).json({ error: err2.message });
       }
       const decrypted = updatedRows.map(row => {
         if (row.isDelivered) {
-          // Update openedAt if not already recorded
           if (!row.openedAt) {
             db.run(`UPDATE capsules SET openedAt = datetime('now') WHERE id = ?`, [row.id]);
           }
-          // Decrypt message
+          
           try {
             row.message = decrypt(row.message);
           } catch (e) {
@@ -85,7 +79,6 @@ exports.getMyCapsules = (req, res) => {
   });
 };
 
-// Update fetch logic to mark capsules as delivered
 exports.getCapsules = (req, res) => {
   const userId = req.user.id;
   const now = new Date().toISOString();
@@ -102,7 +95,6 @@ exports.getCapsules = (req, res) => {
       const updatedCapsules = capsules.map((capsule) => {
         const now = new Date();
 
-        // Adjust the comparison to handle exact matches and timezone differences
         if (
           capsule.triggerType === "date" &&
           new Date(capsule.triggerValue).getTime() <= now.getTime() &&
@@ -116,7 +108,6 @@ exports.getCapsules = (req, res) => {
           capsule.openedAt = now.toISOString();
         }
 
-        // Decrypt the message
         if (capsule.message) {
           const [iv, encrypted] = capsule.message.split(":");
           capsule.message = crypto.decrypt(encrypted, iv);
@@ -130,7 +121,6 @@ exports.getCapsules = (req, res) => {
   );
 };
 
-// POST /api/capsule/simulate → Simulate all triggers
 exports.simulateTriggers = async (req, res) => {
   db.all(`SELECT * FROM capsules WHERE isDelivered = 0`, [], async (err, capsules) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -147,11 +137,11 @@ exports.simulateTriggers = async (req, res) => {
       }
 
       if (capsule.triggerType === "location" && capsule.triggerValue.toLowerCase() === "paris") {
-        shouldDeliver = true; // Simulated presence in Paris
+        shouldDeliver = true; 
       }
 
       if (capsule.triggerType === "milestone") {
-        // Fetch user's GitHub token
+       
         await new Promise((resolve) => {
           db.get('SELECT githubToken FROM users WHERE id = ?', [capsule.userId], async (userErr, user) => {
             if (userErr || !user || !user.githubToken) {
@@ -193,7 +183,6 @@ exports.simulateTriggers = async (req, res) => {
   });
 };
 
-// Simulate GitHub PR milestone (for milestone-based capsules)
 exports.simulatePRMilestone = async (req, res) => {
   const { userId, targetPRCount } = req.body;
   db.all(`SELECT * FROM capsules WHERE userId = ? AND triggerType = 'milestone'`, [userId], async (err, capsules) => {
@@ -228,7 +217,6 @@ exports.simulatePRMilestone = async (req, res) => {
   });
 };
 
-// POST /api/capsule/checkin → Simulate location check-in and deliver capsules
 exports.checkInLocation = (req, res) => {
   const { userId, location } = req.body;
   if (!userId || !location) {
@@ -254,7 +242,6 @@ exports.checkInLocation = (req, res) => {
                 console.error(err.message);
               } else {
                 deliveredCount++;
-                // Send email to user
                 emailPromises.push(new Promise((resolve) => {
                   dbUser.get('SELECT email FROM users WHERE id = ?', [userId], async (userErr, user) => {
                     const to = (user && user.email) || capsule.userEmail;

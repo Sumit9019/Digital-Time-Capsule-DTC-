@@ -16,7 +16,7 @@ export default function Register({ onRegister }) {
     } else {
       alert("Registered successfully!");
       onRegister();
-      navigate("/dashboard"); // Redirect to dashboard
+      navigate("/dashboard");
     }
   };
 

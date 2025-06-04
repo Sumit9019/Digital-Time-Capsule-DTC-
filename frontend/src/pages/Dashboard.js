@@ -7,7 +7,7 @@ import NavigationBar from "../components/NavigationBar";
 import CapsuleTimeline from "../components/CapsuleTimeline";
 import CapsuleGraph from "../components/CapsuleGraph";
 import { FaUserCircle, FaTrophy, FaChartLine } from 'react-icons/fa';
-import AboutUs from "../pages/AboutUs"; // Import the About Us page
+import AboutUs from "../pages/AboutUs";
 
 const sampleMilestones = [
   { title: "First Capsule", description: "Created your first time capsule!", badge: "🎉" },
@@ -93,7 +93,7 @@ const Dashboard = () => {
             <CapsuleGraph />
           </div>
 
-          {/* About Us Section */}
+          
           <div className="dashboard-section">
             <h2>📖 About Us</h2>
             <AboutUs />

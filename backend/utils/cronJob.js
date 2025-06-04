@@ -23,7 +23,7 @@ const checkAndSendReminders = async () => {
 };
 
 const startCronJob = () => {
-  cron.schedule("0 * * * *", checkAndSendReminders); // every hour
+  cron.schedule("0 * * * *", checkAndSendReminders);
 };
 
 module.exports = startCronJob;

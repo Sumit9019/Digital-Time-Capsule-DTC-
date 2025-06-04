@@ -6,7 +6,7 @@ const GitHubCapsuleForm = ({ onSubmit }) => {
   const [prMilestone, setPrMilestone] = useState('');
 
   useEffect(() => {
-    // Check GitHub connection status
+  
     axios.get(`${process.env.REACT_APP_API_URL}/auth/github/status`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     })
@@ -15,7 +15,7 @@ const GitHubCapsuleForm = ({ onSubmit }) => {
   }, []);
 
   const handleConnectGitHub = () => {
-    window.location.href = `${process.env.REACT_APP_API_URL}/auth/github`; // Redirect to GitHub OAuth
+    window.location.href = `${process.env.REACT_APP_API_URL}/auth/github`; 
   };
 
   const handleSubmit = (e) => {

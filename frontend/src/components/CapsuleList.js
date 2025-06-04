@@ -1,4 +1,4 @@
-// CapsuleList.js
+
 import React, { useEffect, useState, useRef } from "react";
 import API from "../api";
 import confetti from "canvas-confetti";
@@ -95,13 +95,13 @@ export default function CapsuleList() {
   };
 
   const handleViewMessage = async (id) => {
-    // Always fetch latest capsules before showing message
+
     try {
       const res = await API.get("/capsule/mine");
       const latestCapsules = res.data;
       const capsule = latestCapsules.find((cap) => cap.id === id);
       if (capsule && capsule.isDelivered) {
-        setCapsules(latestCapsules); // update state so UI is in sync
+        setCapsules(latestCapsules); 
         setExpandedId(expandedId === id ? null : id);
       } else {
         alert("Capsule will open after the trigger date.");
@@ -125,7 +125,7 @@ export default function CapsuleList() {
     cap.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Haversine formula to calculate distance between two lat/lng points in km
+
   function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the earth in km
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -137,9 +137,9 @@ export default function CapsuleList() {
     return R * 2 * Math.asin(Math.sqrt(a));
   }
 
-  // Simulated location check-in for Paris using real GPS
+
   const handleParisCheckIn = async () => {
-    // Paris coordinates
+  
     const parisLat = 48.8566;
     const parisLng = 2.3522;
     try {
@@ -150,7 +150,7 @@ export default function CapsuleList() {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords;
         const distance = getDistanceFromLatLonInKm(latitude, longitude, parisLat, parisLng);
-        if (distance > 50) { // 50km radius
+        if (distance > 50) { 
           alert("You are not in the expected location (Paris). Please travel to Paris to open this capsule.");
           setActivityLog((prev) => [
             `❌ Check-in failed: Not in Paris (distance: ${distance.toFixed(1)} km)`,
@@ -158,7 +158,7 @@ export default function CapsuleList() {
           ]);
           return;
         }
-        // Assume userId is available in the first capsule (or get from auth context if available)
+        
         const userId = capsules[0]?.userId;
         if (!userId) {
           alert("User ID not found. Please refresh or log in again.");

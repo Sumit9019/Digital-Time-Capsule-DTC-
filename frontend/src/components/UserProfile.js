@@ -38,3 +38,5 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+// This component allows users to view and update their profile picture and username.

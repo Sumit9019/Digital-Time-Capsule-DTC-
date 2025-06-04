@@ -28,3 +28,4 @@ module.exports = (req, res, next) => {
     return res.status(403).json({ error: 'Invalid or expired token' });
   }
 };
+// it is good for creating the authMiddleware.js file

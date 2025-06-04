@@ -5,7 +5,6 @@ const moment = require('moment');
 const { getPRCount } = require('../services/githubService');
 const dbUser = require('../models/User');
 
-// Promisify db.all and db.run for better async/await usage
 const dbAll = (query, params = []) => new Promise((resolve, reject) => {
   db.all(query, params, (err, rows) => {
     if (err) reject(err);
@@ -21,7 +20,7 @@ const dbRun = (query, params = []) => new Promise((resolve, reject) => {
 
 const sendReminderEmails = async () => {
   try {
-    // 7 days before
+   
     const sevenDaysQuery = `SELECT * FROM capsules WHERE triggerType = 'date' AND reminder7Sent = 0 AND isDelivered = 0 AND userEmail IS NOT NULL AND DATE(triggerValue) = DATE('now', '+7 days')`;
     const sevenDayRows = await dbAll(sevenDaysQuery);
     for (const capsule of sevenDayRows) {
@@ -39,7 +38,7 @@ const sendReminderEmails = async () => {
       }
     }
 
-    // 1 day before
+   
     const oneDayQuery = `SELECT * FROM capsules WHERE triggerType = 'date' AND reminder1Sent = 0 AND isDelivered = 0 AND userEmail IS NOT NULL AND DATE(triggerValue) = DATE('now', '+1 day')`;
     const oneDayRows = await dbAll(oneDayQuery);
     for (const capsule of oneDayRows) {
@@ -57,7 +56,6 @@ const sendReminderEmails = async () => {
       }
     }
 
-    // On the day (existing logic, but now only for the day of unlock)
     const openQuery = `SELECT * FROM capsules WHERE triggerType = 'date' AND isDelivered = 0 AND userEmail IS NOT NULL AND DATE(triggerValue) = DATE('now') AND reminderSent = 0`;
     const openRows = await dbAll(openQuery);
     for (const capsule of openRows) {
@@ -75,10 +73,9 @@ const sendReminderEmails = async () => {
       }
     }
 
-    // --- GitHub PR milestone capsules ---
     const milestoneCapsules = await dbAll(`SELECT * FROM capsules WHERE triggerType = 'milestone' AND isDelivered = 0`);
     for (const capsule of milestoneCapsules) {
-      // Fetch user's GitHub token
+      
       await new Promise((resolve) => {
         dbUser.get('SELECT githubToken, email FROM users WHERE id = ?', [capsule.userId], async (userErr, user) => {
           if (userErr || !user || !user.githubToken) {
@@ -91,7 +88,6 @@ const sendReminderEmails = async () => {
             const target = parseInt(capsule.triggerValue);
             if (currentPRs >= target) {
               await dbRun('UPDATE capsules SET isDelivered = 1, openedAt = datetime(\'now\') WHERE id = ?', [capsule.id]);
-              // Send congratulatory email
               const emailContent = {
                 to: user.email || capsule.userEmail,
                 subject: '🎉 GitHub PR Milestone Achieved!',

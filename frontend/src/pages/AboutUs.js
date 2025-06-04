@@ -44,3 +44,4 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
+// // This component provides an overview of the Time Capsule app, explaining its purpose and features.

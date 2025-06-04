@@ -22,4 +22,4 @@ db.serialize(() => {
 });
 
 module.exports = db;
- // it is good to have a database connection module like this
+// it is good to have a database connection module like this

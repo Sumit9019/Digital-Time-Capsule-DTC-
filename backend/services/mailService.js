@@ -1,20 +1,19 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-// Set up the nodemailer transporter using Gmail
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL,      // Email: csumitsingh43@gmail.com
-    pass: process.env.EMAIL_PASSWORD,  // Password from .env
+    user: process.env.EMAIL,  
+    pass: process.env.EMAIL_PASSWORD, 
   }
 });
 
-// Function to send a congratulatory email
-exports.sendCongratulatoryEmail = (userEmail) => {
+ exports.sendCongratulatoryEmail = (userEmail) => {
   const mailOptions = {
-    from: process.env.EMAIL, // Your Gmail address
-    to: userEmail,                // The recipient's email
+    from: process.env.EMAIL, 
+    to: userEmail,             
     subject: 'Congratulations on Achieving Your PR Milestone!',
     text: 'Dear user, congratulations! You have successfully achieved your PR milestone on GitHub. Keep up the great work!',
   };
