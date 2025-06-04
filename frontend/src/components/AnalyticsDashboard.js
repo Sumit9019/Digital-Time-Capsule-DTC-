@@ -96,7 +96,7 @@ const AnalyticsDashboard = () => {
     return { months: formattedMonths, values };
   };
 
-  // For reminders, sum all reminder types per day
+  
   const buildRemindersChart = (rawData) => {
     const labels = rawData.map(row => row.date);
     const values = rawData.map(row => {
@@ -123,7 +123,7 @@ const AnalyticsDashboard = () => {
     };
   };
 
-  // For bar chart, aggregate reminders by month
+ 
   const aggregateRemindersByMonth = (rawData) => {
     const monthMap = {};
     rawData.forEach(row => {

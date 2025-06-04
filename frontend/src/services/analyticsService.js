@@ -1,12 +1,12 @@
-// analyticsService.js
+
 import axios from "axios";
 
 export const fetchAnalytics = async () => {
   try {
-    const response = await axios.get("http://localhost:5000/api/analytics");  // Ensure this URL matches your backend
-    console.log("Fetched Analytics Data:", response.data);  // Log the response for debugging
+    const response = await axios.get("http://localhost:5000/api/analytics");  
+    console.log("Fetched Analytics Data:", response.data);
     
-    // Ensure the response data contains the expected structure
+  
     if (
       response.data &&
       Array.isArray(response.data.created) &&
@@ -22,7 +22,7 @@ export const fetchAnalytics = async () => {
     console.error("Error fetching analytics:", error.message);
     console.error(error.stack);
     
-    // Optionally, return fallback data to avoid crashing the UI
+    
     return {
       created: [],
       opened: [],

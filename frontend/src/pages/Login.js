@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { login } from "../services/api";
 import Register from "./Register";
-import "./Login.css"; // ⬅️ Import the CSS
+import "./Login.css"; 
 import { useNavigate } from "react-router-dom";
 
 export default function Login({ onLogin }) {
-  const [form, setForm] = useState({ email: "", password: "" }); // Ensure default values are empty strings
+  const [form, setForm] = useState({ email: "", password: "" });
   const [showRegister, setShowRegister] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function Login({ onLogin }) {
         alert(`Welcome, ${res.username}`);
         localStorage.setItem("token", res.token);
         onLogin();
-        navigate("/dashboard"); // Redirect to dashboard
+        navigate("/dashboard");
       }
     }
   };

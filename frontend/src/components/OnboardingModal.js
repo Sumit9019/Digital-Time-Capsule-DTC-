@@ -22,3 +22,4 @@ const OnboardingModal = ({ onClose }) => {
 };
 
 export default OnboardingModal;
+// This component displays an onboarding modal with a welcome message and instructions for using the app.

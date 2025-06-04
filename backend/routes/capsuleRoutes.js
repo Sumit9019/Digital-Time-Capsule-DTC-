@@ -10,19 +10,16 @@ const {
   simulatePRMilestone
 } = require('../controllers/capsuleController');
 
-// Defensive fallback for missing handlers
 function notImplemented(req, res) {
   res.status(501).json({ error: 'Not implemented' });
 }
 
-// Use fallback if any handler is not a function
 router.post('/create', auth, typeof createCapsule === 'function' ? createCapsule : notImplemented);
 router.get('/mine', auth, typeof getMyCapsules === 'function' ? getMyCapsules : notImplemented);
 router.post('/simulate', typeof simulateTriggers === 'function' ? simulateTriggers : notImplemented);
 router.post('/checkin', auth, typeof checkInLocation === 'function' ? checkInLocation : notImplemented);
 router.post('/simulate/pr', typeof simulatePRMilestone === 'function' ? simulatePRMilestone : notImplemented);
 
-// Add a DELETE route for deleting a capsule by ID
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
   console.log('DELETE request received for capsule ID:', id);

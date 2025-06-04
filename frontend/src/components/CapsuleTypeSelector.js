@@ -19,3 +19,4 @@ export default function CapsuleTypeSelector({ type, setType }) {
     </div>
   );
 }
+// it is good to have a separate component for capsule type selection

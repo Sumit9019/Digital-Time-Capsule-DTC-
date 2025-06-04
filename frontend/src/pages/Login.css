@@ -1,4 +1,3 @@
-/* Login.css */
 
 body {
     margin: 0;
@@ -7,7 +6,7 @@ body {
     min-height: 100vh;
   }
   
-  /* General container styling */
+  
   .login-container {
     display: flex;
     justify-content: center;

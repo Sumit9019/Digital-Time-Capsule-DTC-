@@ -11,7 +11,7 @@ const GitHubCapsuleButton = ({ capsuleType }) => {
   useEffect(() => {
     console.log('Backend URL:', process.env.REACT_APP_BACKEND_URL); // Debugging log
     if (capsuleType === 'github') {
-      // Check GitHub connection status
+    
       axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/github/status`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })

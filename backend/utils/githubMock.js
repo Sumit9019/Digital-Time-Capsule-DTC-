@@ -1,6 +1,6 @@
 // Mock function to simulate GitHub PR count
 function getUserPRCount(userId) {
-    // Simulate different PR counts for demonstration
+
     const mockPRCounts = {
       1: 50,
       2: 120,

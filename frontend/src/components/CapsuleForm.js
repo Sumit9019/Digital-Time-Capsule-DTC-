@@ -136,3 +136,4 @@ export default function CapsuleForm({ onCreated }) {
     </form>
   );
 }
+// it is good to have a separate component for capsule form

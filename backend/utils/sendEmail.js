@@ -20,3 +20,4 @@ const sendEmail = async ({ to, subject, text }) => {
 };
 
 module.exports = sendEmail;
+// it is good to use async/await for better error handling

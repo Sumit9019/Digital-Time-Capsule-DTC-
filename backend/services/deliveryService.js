@@ -50,3 +50,4 @@ async function checkGitHubMilestones() {
 }
 
 module.exports = { checkGitHubMilestones };
+// it is good to have a separate service for delivery logic

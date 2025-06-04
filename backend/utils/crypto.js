@@ -1,11 +1,8 @@
 const crypto = require("crypto");
+ const ENCRYPTION_KEY = crypto.scryptSync(process.env.ENCRYPTION_SECRET, 'salt', 32);
+const IV_LENGTH = 16; 
 
-// 32-byte encryption key from environment variable (secure!)
-const ENCRYPTION_KEY = crypto.scryptSync(process.env.ENCRYPTION_SECRET, 'salt', 32);
-const IV_LENGTH = 16; // AES block size for CBC mode
-
-// Encrypt plain text → encrypted string in format: iv:encrypted
-exports.encrypt = (text) => {
+ exports.encrypt = (text) => {
   const iv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv("aes-256-cbc", ENCRYPTION_KEY, iv);
 
@@ -15,7 +12,7 @@ exports.encrypt = (text) => {
   return `${iv.toString("hex")}:${encrypted}`;
 };
 
-// Decrypt encrypted string → original plain text
+
 exports.decrypt = (data) => {
   const [ivHex, encrypted] = data.split(":");
   const iv = Buffer.from(ivHex, "hex");
